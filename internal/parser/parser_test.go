@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"strings"
 	"testing"
-
-	"github.com/mntcloud/ctml/internal/lexer"
 )
 
 func TestParserGeneral(t *testing.T) {
 	template := `<body
-	<header
-		<button: content
-		<button: content
-	<main
-		<h1: content
-		<h2: content 
-		<p 
-			hello, it's me! 
-			you didn't expect me?
-	`
+    <header
+        <button: content
+        <button: content
+    <main
+        <h1: content
+        <h2: content 
+        <p 
+            hello, it's me! 
+            you didn't expect me?
+	<footer
+		mntcloud works
+    `
 
 	shouldBe := Element{
 		Name: "body",
@@ -78,6 +78,61 @@ func TestParserGeneral(t *testing.T) {
 					},
 				},
 			},
+			Element{
+				Name: "footer",
+				Children: []Child{
+					Content{
+						Value: []string{
+							"mntcloud works",
+						},
+					},
+				},
+			},
+		},
+	}
+
+	if err := procedure(template, shouldBe); err != nil {
+		t.Fatalf("got error: %s", err)
+	}
+}
+
+func TestParserWithNesting(t *testing.T) {
+	template := `<body
+    <main
+        <p 
+			the nest
+	<footer
+		mntcloud works
+    `
+
+	shouldBe := Element{
+		Name: "body",
+		Children: []Child{
+			Element{
+				Name: "main",
+				Children: []Child{
+					Element{
+						Name: "p",
+						Children: []Child{
+							Content{
+								Value: []string{
+									"the nest",
+								},
+							},
+						},
+					},
+				},
+			},
+			Element{
+				Name: "footer",
+				Children: []Child{
+					Content{
+						Value: []string{
+							"mntcloud works",
+						},
+					},
+				},
+			},
 		},
 	}
 
@@ -88,8 +143,8 @@ func TestParserGeneral(t *testing.T) {
 
 func TestParserWithAttr(t *testing.T) {
 	template := `<body
-	<someElement =attr "hello, world": lorem ipsum
-	`
+    <someElement =attr "hello, world": lorem ipsum
+    `
 
 	shouldBe := Element{
 		Name: "body",
@@ -115,9 +170,8 @@ func TestParserWithAttr(t *testing.T) {
 
 func procedure(template string, shouldBe Element) error {
 	strr := strings.NewReader(template)
-	lx := lexer.New(strr)
 
-	pr := New(lx)
+	pr := New(strr)
 	pr.Do()
 
 	if err := elementCheck(shouldBe, *pr.AST, 0); err != nil {

@@ -3,8 +3,13 @@ module github.com/mntcloud/ctml
 go 1.21.3
 
 require github.com/urfave/cli/v2 v2.25.7
+
 require github.com/gin-gonic/gin v1.9.1
-require github.com/gorilla/websocket v1.5.1
+
+require (
+	github.com/gorilla/websocket v1.5.1
+	github.com/mntcloud/watcher v0.0.0-20231226234235-37cdeca379d5
+)
 
 require (
 	github.com/bytedance/sonic v1.10.2 // indirect

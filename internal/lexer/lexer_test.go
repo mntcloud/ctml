@@ -110,6 +110,27 @@ func TestLexerWithUnicode(t *testing.T) {
 	}
 }
 
+func TestLexerWithSpaceIdentation(t *testing.T) {
+	template := `<body
+    <header
+        <h1: Hello, world!
+        <p
+            pam
+	`
+
+	shouldBe := []string{
+		"<ELEMENT>", "body", "<NL>",
+		"<IDENT>", "<ELEMENT>", "header", "<NL>",
+		"<IDENT>", "<IDENT>", "<ELEMENT>", "h1", "<DECL>", "Hello,", "world!", "<NL>",
+		"<IDENT>", "<IDENT>", "<ELEMENT>", "p", "<NL>",
+		"<IDENT>", "<IDENT>", "<IDENT>", "pam", "<NL>",
+	}
+
+	if err := procedure(template, shouldBe); err != nil {
+		t.Fatalf("got error: %s", err)
+	}
+}
+
 func TestLexerWithEscapes(t *testing.T) {
 	template := `<body
 	\:example
@@ -166,7 +187,7 @@ func procedure(doc string, shouldBe []string) error {
 
 	for i, v := range shouldBe {
 		if v != res[i] {
-			return fmt.Errorf("got: %s, should be: %s", res[i], v)
+			return fmt.Errorf("got: %s, should be: %s; pos: %d", res[i], v, i)
 		}
 	}
 

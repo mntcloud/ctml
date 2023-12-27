@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"errors"
 	"io"
 	"strings"
 
@@ -30,12 +31,56 @@ type Parser struct {
 	nest     int
 }
 
-type Child interface {
-	print() string
+func New(r io.Reader) Parser {
+	lex := lexer.New(r)
+
+	return Parser{lex: lex}
 }
 
-func New(lex lexer.Lexer) Parser {
-	return Parser{lex: lex}
+// Created to be used as a finder for links to other .ctml pages
+// on the local filesystem
+func (p *Parser) GetLinks() (links []string, err error) {
+	if p.AST == nil {
+		return nil, errors.New("looks like we have empty AST, do a parsing first")
+	}
+
+	// we prefer to be sure, that root of
+	// AST is always <body> tag, which doesn't have any links
+	// by design and so what we need, it is only to check
+	// the element's own children
+	for _, ch := range p.AST.Children {
+		el, ok := ch.(*Element)
+
+		if !ok {
+			continue
+		}
+
+		links = append(links, p.getLink(el)...)
+	}
+
+	return links, nil
+}
+
+func (p *Parser) getLink(node *Element) (links []string) {
+	for k, v := range node.Attributes {
+		if k == "href" || k == "src" {
+			links = append(links, v)
+		}
+	}
+
+	if len(node.Children) != 0 {
+		for _, ch := range node.Children {
+			el, ok := ch.(*Element)
+
+			if !ok {
+				continue
+			}
+
+			links = append(links, p.getLink(el)...)
+		}
+	}
+
+	return links
 }
 
 func (p *Parser) Do() error {
@@ -114,12 +159,26 @@ func (p *Parser) Do() error {
 					p.lines = nil
 				}
 
-				p.current = p.current.Parent
+				index := 0
+				levels := p.prevNest - p.nest
+
+				// sometimes prevNest and nest difference
+				// more than one and we need to do operation
+				// swaping p.current with p.current.Parent
+				// several times
+				for {
+					if index == levels {
+						break
+					}
+
+					p.current = p.current.Parent
+					index++
+				}
 			}
 
 			/* allocate an empty element for now, we will populate it later */
 			ch := Element{
-				// required by golang
+				// required by go
 				Attributes: make(map[string]string),
 			}
 
@@ -136,7 +195,6 @@ func (p *Parser) Do() error {
 		case "<IDENT>":
 			p.nest++
 		default:
-
 			switch p.state {
 			case ELEMENT:
 				if p.current.Name == "" {
@@ -183,9 +241,3 @@ func (p *Parser) Do() error {
 
 	return nil
 }
-
-/*
-func betterAppend[T any](arr []T, element T) (*T, int) {
-
-}
-*/

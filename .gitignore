@@ -1,2 +1,4 @@
 vendor/
 .sublime/*.sublime-workspace
+dist/
+ctml.exe

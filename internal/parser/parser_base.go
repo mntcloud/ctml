@@ -5,6 +5,10 @@ import (
 	"strings"
 )
 
+type Child interface {
+	Print(ident int) string
+}
+
 type Element struct {
 	Name       string
 	Parent     *Element
@@ -13,7 +17,7 @@ type Element struct {
 	Children   []Child
 }
 
-func (el Element) print() string {
+func (el Element) Print(ident int) string {
 	attr := []string{}
 
 	if len(attr) > 0 {
@@ -30,7 +34,7 @@ func (el Element) print() string {
 		tree := ""
 
 		for _, v := range el.Children {
-			tree = tree + v.print() + " "
+			tree = tree + v.Print(ident+1) + " "
 		}
 
 		return fmt.Sprintf("<%s %s>%s</%s>", el.Name, strings.Join(attr, " "), tree, el.Name)
@@ -44,6 +48,6 @@ type Content struct {
 	Value  []string
 }
 
-func (c Content) print() string {
+func (c Content) Print(ident int) string {
 	return strings.Join(c.Value, "\n")
 }

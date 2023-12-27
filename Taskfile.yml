@@ -1,0 +1,18 @@
+version: '3'
+
+tasks:
+  build:
+    cmds:
+      - go build ./cmd/ctml
+
+  # e2e testing 
+  e2e-publish:
+    dir: e2e/publish
+    deps: [build]
+    cmds:
+      - ../../ctml.exe publish
+  e2e-server:
+    deps: [build]
+    dir: e2e/server
+    cmds:
+      - ../../ctml.exe server
