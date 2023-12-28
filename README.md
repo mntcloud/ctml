@@ -1,4 +1,4 @@
-<h1 align="center"> ConvenienT Markup Language</h1>
+<h1 align="center"> Convenient Markup Language</h1>
 
 It was created as a solution to my problems in writing HTML pages:
 ```
