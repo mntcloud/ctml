@@ -1,6 +1,6 @@
 <h1 align="center"> ConvenienT Markup Language</h1>
 
-It was created as a solution to my problems in writing HTML pages, let me show the format itself:
+It was created as a solution to my problems in writing HTML pages:
 ```
 <body
     <header .class1 .class2
@@ -15,8 +15,10 @@ It was created as a solution to my problems in writing HTML pages, let me show t
     <footer
         made by mntcloud
 ```
-What you saw above that it is all syntax (yet).
-In result it transforms in something like this:
+> This page contains all the syntax, that is defined in the program.
+  Almost intutive, don't you think?
+
+Then the program translates the CTML page above into this HTML:
 ```html
 <html>
     <!-- ... -->
@@ -39,8 +41,9 @@ In result it transforms in something like this:
     </body>
 </html>
 ```
+For me, it looks intuitve 
 
-## What things does it have right now?
+## What features does it have right now?
 
 - [x] Intuitive syntax, that has similiraties with HTML, but with Python identation 
 - [x] Swapping tags names easily any without help of third-party extensions, thanks to the syntax
