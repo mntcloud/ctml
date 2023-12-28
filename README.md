@@ -1,6 +1,22 @@
-<h1 align="center"> Convenient Markup Language</h1>
+# Convenient Markup Language
+A format for building and maintaing varied websites 
+ 
+## Goal
+Project was created to resolve my problems with building HTML pages, like:
+- repetitiveness
+    - I know about HTML-template engines. I don't like it too much because of implementation and use
+      - Engines exists mostly like libraries, than standalone programs.
+          - And templating format is not so pretty at micro and major scale, looks like something foreign, better be deeply intergrated 
+      - Standalone programs, that include engines, I don't like their focus on something one (blog or whatever) and they put some restrictions.
+          - Their's documentation most likely is horrible, this what i've encountered so far
+      - Conclusion: I would like to have a middle of these things, a flexible solution for different use cases.
+- development
+    - code edit + manual browser reload != happiness
 
-It was created to resolve my problems with building HTML pages:
+Also I wanted to make my own handwritten parser and lexer, that is reason why it has new syntax. 
+Other, I wanted to improve perfomance of writing webpages.
+
+# Format Example
 ```
 <body
     <header .class1 .class2
