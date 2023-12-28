@@ -1,7 +1,7 @@
 # Convenient Markup Language
 A format for building and maintaing varied websites 
 
-# Format Example
+## Format Example
 ```
 <body
     <header .class1 .class2
