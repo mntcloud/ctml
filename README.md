@@ -41,7 +41,6 @@ Then the program translates the CTML page above into this HTML:
     </body>
 </html>
 ```
-For me, it looks intuitve 
 
 ## What features does it have right now?
 
