@@ -1,6 +1,6 @@
 <h1 align="center"> Convenient Markup Language</h1>
 
-It was created as a solution to my problems in writing HTML pages:
+It was created to resolve my problems when I'm building HTML pages:
 ```
 <body
     <header .class1 .class2
@@ -16,7 +16,7 @@ It was created as a solution to my problems in writing HTML pages:
         made by mntcloud
 ```
 > This page contains all the syntax, that is defined in the program.
-  Almost intutive, don't you think?
+  When you know HTML, it looks almost intuitive, don't you think?
 
 Then the program translates the CTML page above into this HTML:
 ```html
