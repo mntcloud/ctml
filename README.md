@@ -1,6 +1,6 @@
 <h1 align="center"> Convenient Markup Language</h1>
 
-It was created to resolve my problems when I'm building HTML pages:
+It was created to resolve my problems with building HTML pages:
 ```
 <body
     <header .class1 .class2
