@@ -1,5 +1,5 @@
 # Convenient Markup Language
-A format for building and maintaing varied websites 
+A format for building and maintaining varied websites 
 
 ## Format Example
 ```
